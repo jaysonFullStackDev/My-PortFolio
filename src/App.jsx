@@ -712,12 +712,10 @@ function ContactSection() {
                 key={l}
                 className="flex items-start sm:items-center gap-2 sm:gap-4"
               >
-                <span className="text-base sm:text-xl flex-shrink-0">
-                  {ico}
-                </span>
+                <span className="text-base sm:text-xl shrink-0">{ico}</span>
                 <div className="min-w-0">
                   <div className="mono text-xs text-gray-500">{l}</div>
-                  <div className="text-xs sm:text-sm font-semibold break-words">
+                  <div className="text-xs sm:text-sm font-semibold wrap-break-words">
                     {v}
                   </div>
                 </div>
