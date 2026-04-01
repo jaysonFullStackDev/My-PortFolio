@@ -14,7 +14,8 @@ A professional dark-themed portfolio built with **React**, **Vite**, **Node.js**
 
 ## 🚀 Quick Start
 
-Start dev server
+# Start dev server
+
 npm run dev
 
 ## 🛠 Tech Stack
