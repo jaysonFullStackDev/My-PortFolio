@@ -14,12 +14,6 @@ A professional dark-themed portfolio built with **React**, **Vite**, **Node.js**
 
 ## 🚀 Quick Start
 
-### Option A — Open directly (no setup)
-
-Just open `index.html` in your browser. It works standalone via CDN.
-
-### Option B — Vite dev server (recommended)
-
 ```bash
 
 # Start dev server
