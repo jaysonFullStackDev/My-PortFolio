@@ -37,26 +37,101 @@ const projects = [
 ];
 
 const skills = [
-  { name: "React", cat: "Frontend", image: "/img/logo/react.svg" },
+  {
+    name: "React",
+    cat: "Frontend",
+    image:
+      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
+  },
   {
     name: "Tailwind CSS",
     cat: "Frontend",
-    image: "/img/logo/Tailwind_CSS_Logo.svg",
+    image: "https://www.vectorlogo.zone/logos/tailwindcss/tailwindcss-icon.svg",
   },
-  { name: "Bootstrap", cat: "Frontend", image: "/img/logo/Bootstrap.svg" },
-  { name: "HTML", cat: "Frontend", image: "/img/logo/HTML5.svg" },
-  { name: "JavaScript", cat: "Frontend", image: "/img/logo/js.png" },
-  { name: "CSS", cat: "Frontend", image: "/img/logo/CSS3.svg" },
-  { name: "Node.js", cat: "Backend", image: "/img/logo/nodejsLight.svg" },
-  { name: "Express.js", cat: "Backend", image: "/img/logo/expressjs.png" },
-  { name: "MongoDB", cat: "Backend", image: "/img/logo/MongoDB_Logo.svg" },
-  { name: "Nodemon", cat: "Backend", image: "/img/logo/nodemon.svg" },
+  {
+    name: "Bootstrap",
+    cat: "Frontend",
+    image:
+      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg",
+  },
+  {
+    name: "HTML",
+    cat: "Frontend",
+    image:
+      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
+  },
+  {
+    name: "JavaScript",
+    cat: "Frontend",
+    image:
+      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
+  },
+  {
+    name: "CSS",
+    cat: "Frontend",
+    image:
+      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
+  },
+  {
+    name: "Node.js",
+    cat: "Backend",
+    image:
+      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
+  },
+  {
+    name: "Express.js",
+    cat: "Backend",
+    image: "/img/logo/expressjs.png",
+  },
+  {
+    name: "MongoDB",
+    cat: "Backend",
+    image:
+      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
+  },
+  {
+    name: "Nodemon",
+    cat: "Backend",
+    image: "https://www.vectorlogo.zone/logos/nodemonio/nodemonio-icon.svg",
+  },
   { name: "AWS IAM", cat: "DevOps", image: "/img/logo/iam.png" },
   { name: "AWS S3 Bucket", cat: "DevOps", image: "/img/logo/s3bucket.png" },
-  { name: "C#", cat: "Language", image: "/img/logo/csharp.svg" },
-  { name: "Python", cat: "Language", image: "/img/logo/python.svg" },
-  { name: "Java", cat: "Language", image: "/img/logo/java.svg" },
-  { name: "JavaScript", cat: "Language", image: "/img/logo/js.png" },
+  {
+    name: "C#",
+    cat: "Language",
+    image:
+      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg",
+  },
+  {
+    name: "Python",
+    cat: "Language",
+    image:
+      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
+  },
+  {
+    name: "Java",
+    cat: "Language",
+    image:
+      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg",
+  },
+  {
+    name: "JavaScript",
+    cat: "Language",
+    image:
+      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
+  },
+  {
+    name: "Git",
+    cat: "Version Control",
+    image:
+      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
+  },
+  {
+    name: "GitHub",
+    cat: "Version Control",
+    image:
+      "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/github.svg",
+  },
 ];
 
 const timeline = [
