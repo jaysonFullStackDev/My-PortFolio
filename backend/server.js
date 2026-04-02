@@ -2,6 +2,8 @@ import express from "express";
 import nodemailer from "nodemailer";
 import cors from "cors";
 import dotenv from "dotenv";
+import fetch from "node-fetch"; // needed for reCAPTCHA verification
+import rateLimit from "express-rate-limit";
 
 dotenv.config();
 
@@ -11,19 +13,31 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-app.post("/test", (req, res) => {
-  console.log("Received body:", req.body);
-  res.json({ received: req.body });
+const contactLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5,
+  message: "Too many messages from this IP, please try again later.",
 });
 
-app.post("/contact", async (req, res) => {
-  const { name, email, msg } = req.body;
+app.post("/contact", contactLimiter, async (req, res) => {
+  const { name, email, msg, token } = req.body;
 
-  if (!name || !email || !msg) {
+  if (!name || !email || !msg || !token) {
     return res.status(400).json({ message: "All fields required" });
   }
 
   try {
+    // ── Verify reCAPTCHA with Google ──
+    const secretKey = process.env.RECAPTCHA_SECRET; // add in .env
+    const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${token}`;
+    const response = await fetch(verifyUrl, { method: "POST" });
+    const data = await response.json();
+
+    if (!data.success) {
+      return res.status(400).json({ message: "Failed reCAPTCHA verification" });
+    }
+
+    // ── Send email via Nodemailer ──
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -33,10 +47,11 @@ app.post("/contact", async (req, res) => {
     });
 
     await transporter.sendMail({
-      from: `"${name}" <${email}>`,
+      from: `"Portfolio Contact" <${process.env.EMAIL_USER}>`,
       to: process.env.EMAIL_USER,
-      subject: `Portfolio Message from ${name}`,
-      text: msg,
+      subject: `Portfolio Message from ${name} (${email})`,
+      text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${msg}`,
+      replyTo: email,
     });
 
     res.status(200).json({ message: "Email sent!" });

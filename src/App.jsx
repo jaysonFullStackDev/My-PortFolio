@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 
 /* ── data ── */
 const projects = [
@@ -634,38 +635,31 @@ function SkillsSection() {
 function ContactSection() {
   const [form, setForm] = useState({ name: "", email: "", msg: "" });
   const [sent, setSent] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
-  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-
-  const handle = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!recaptchaToken) return; // safety check
+
     setLoading(true);
-    setError("");
 
     try {
-      const res = await fetch(`${BACKEND_URL}/contact`, {
+      const res = await fetch("http://localhost:5000/contact", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: form.name,
-          email: form.email,
-          msg: form.msg,
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, token: recaptchaToken }),
       });
 
+      const data = await res.json();
       if (res.ok) {
         setSent(true);
-        setForm({ name: "", email: "", msg: "" });
       } else {
-        setError("Failed to send message. Try again.");
+        alert(data.message || "Failed to send message");
       }
     } catch (err) {
       console.error(err);
-      setError("Server error. Please try later.");
+      alert("Failed to send message");
     } finally {
       setLoading(false);
     }
@@ -687,11 +681,7 @@ function ContactSection() {
       href: "https://www.facebook.com/jayson.quisquirin05/",
       icon: "◉",
     },
-    {
-      label: "Email",
-      href: "mailto:jayson.a.quisquirin@gmail.com",
-      icon: "✉",
-    },
+    { label: "Email", href: "jayson.a.quisquirin@gmail.com", icon: "✉" },
   ];
 
   return (
@@ -706,89 +696,166 @@ function ContactSection() {
         <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold">
           Contact
         </h2>
+        <div
+          style={{
+            width: 48,
+            height: 3,
+            background: "linear-gradient(90deg,var(--accent),var(--accent2))",
+            borderRadius: 2,
+            marginTop: 16,
+          }}
+        />
       </div>
 
       <div className="grid md:grid-cols-2 gap-8 sm:gap-12 md:gap-16">
-        {/* LEFT SIDE */}
+        {/* Left info + socials */}
         <div className="fade-up delay-1">
-          <p className="text-gray-400 text-sm leading-relaxed mb-6">
-            Available for full-time roles, freelance projects, or just a chat.
+          <p className="text-gray-400 text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed mb-6 sm:mb-8">
+            Available for full-time roles, freelance projects, or just a chat
+            about interesting engineering problems. Response time: usually under
+            24 hours.
           </p>
+
+          <div className="space-y-3 sm:space-y-4 mb-8 sm:mb-10">
+            {[
+              ["📍", "Location", "Philippines (Remote-friendly)"],
+              ["🕒", "Timezone", "UTC+8 (PHT)"],
+              ["💼", "Status", "Open to opportunities"],
+            ].map(([ico, l, v]) => (
+              <div
+                key={l}
+                className="flex items-start sm:items-center gap-2 sm:gap-4"
+              >
+                <span className="text-base sm:text-xl shrink-0">{ico}</span>
+                <div className="min-w-0">
+                  <div className="mono text-xs text-gray-500">{l}</div>
+                  <div className="text-xs sm:text-sm font-semibold wrap-break-words">
+                    {v}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
 
           <div className="flex gap-2 flex-wrap">
             {socials.map((s) => (
               <a
                 key={s.label}
                 href={s.href}
-                className="mono text-xs px-3 py-2 rounded flex items-center gap-2"
+                className="mono text-xs px-2.5 sm:px-4 py-2 rounded flex items-center gap-2 transition-all"
                 style={{ border: "1px solid #ffffff15", color: "#9ca3af" }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = "#00ff8740";
+                  e.currentTarget.style.color = "var(--accent)";
+                  e.currentTarget.style.background = "#00ff8710";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = "#ffffff15";
+                  e.currentTarget.style.color = "#9ca3af";
+                  e.currentTarget.style.background = "transparent";
+                }}
               >
                 <span>{s.icon}</span>
-                <span>{s.label}</span>
+                <span className="hidden sm:inline">{s.label}</span>
               </a>
             ))}
           </div>
         </div>
 
-        {/* RIGHT SIDE */}
+        {/* Right form */}
         <div className="fade-up delay-2">
           {sent ? (
-            <div className="text-center py-10">
-              <h3 className="text-green-400 text-lg font-bold mb-2">
-                ✓ Message Sent!
-              </h3>
-              <p className="text-gray-400 text-sm">
-                I'll get back to you soon.
+            <div className="h-full flex flex-col items-center justify-center text-center gap-3 sm:gap-4 py-8 sm:py-12">
+              <div
+                className="text-3xl sm:text-4xl md:text-5xl"
+                style={{ animation: "float 2s ease-in-out infinite" }}
+              >
+                ✓
+              </div>
+              <div
+                className="text-base sm:text-lg md:text-xl font-bold"
+                style={{ color: "var(--accent)" }}
+              >
+                Message sent!
+              </div>
+              <p className="text-gray-400 text-xs sm:text-sm">
+                I'll get back to you shortly.
               </p>
-
               <button
                 onClick={() => {
                   setSent(false);
                   setForm({ name: "", email: "", msg: "" });
+                  setRecaptchaToken(null);
                 }}
-                className="mt-4 px-4 py-2 border border-green-400 text-green-400 rounded"
+                className="mono text-xs px-3 sm:px-5 py-2 rounded mt-2 transition-all"
+                style={{
+                  border: "1px solid #00ff8740",
+                  color: "var(--accent)",
+                }}
               >
                 Send another
               </button>
             </div>
           ) : (
-            <form onSubmit={handle} className="space-y-4">
-              <input
-                required
-                placeholder="Your name"
-                className="input-field w-full"
-                value={form.name}
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
-              />
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="mono text-xs text-gray-500 block mb-2">
+                  Name
+                </label>
+                <input
+                  required
+                  className="input-field text-sm"
+                  placeholder="Your name"
+                  value={form.name}
+                  onChange={(e) => setForm({ ...form, name: e.target.value })}
+                />
+              </div>
+              <div>
+                <label className="mono text-xs text-gray-500 block mb-2">
+                  Email
+                </label>
+                <input
+                  required
+                  type="email"
+                  className="input-field text-sm"
+                  placeholder="you@example.com"
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                />
+              </div>
+              <div>
+                <label className="mono text-xs text-gray-500 block mb-2">
+                  Message
+                </label>
+                <textarea
+                  required
+                  className="input-field text-sm"
+                  rows="4"
+                  placeholder="Let's work together!"
+                  value={form.msg}
+                  onChange={(e) => setForm({ ...form, msg: e.target.value })}
+                  style={{ resize: "vertical" }}
+                />
+              </div>
 
-              <input
-                required
-                type="email"
-                placeholder="Your email"
-                className="input-field w-full"
-                value={form.email}
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
-              />
-
-              <textarea
-                required
-                rows="4"
-                placeholder="Your message"
-                className="input-field w-full"
-                value={form.msg}
-                onChange={(e) => setForm({ ...form, msg: e.target.value })}
-              />
-
-              {error && <p className="text-red-500 text-sm">{error}</p>}
+              {/* reCAPTCHA v2 */}
+              <div>
+                <ReCAPTCHA
+                  sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY} // must be v2 key
+                  onChange={(token) => setRecaptchaToken(token)}
+                  onExpired={() => setRecaptchaToken(null)}
+                />
+              </div>
 
               <button
                 type="submit"
-                disabled={loading}
-                className="w-full py-3 rounded font-bold"
-                style={{
-                  background: "#00ff87",
-                  color: "#000",
-                }}
+                disabled={!recaptchaToken || loading}
+                className={`glow-btn w-full mono text-xs sm:text-sm py-2 sm:py-3 rounded-md font-bold ${
+                  !recaptchaToken || loading
+                    ? "opacity-50 cursor-not-allowed"
+                    : ""
+                }`}
+                style={{ background: "var(--accent)", color: "#080c14" }}
               >
                 {loading ? "Sending..." : "Send Message →"}
               </button>
