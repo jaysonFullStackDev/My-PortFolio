@@ -15,6 +15,8 @@ A professional dark-themed portfolio built with **React**, **Vite**, **Node.js**
 ## 🚀 Quick Start
 
 ```bash
+# Install package
+npm install || npm i
 
 # Start dev server
 npm run dev
