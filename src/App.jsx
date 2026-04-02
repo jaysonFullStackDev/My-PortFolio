@@ -172,7 +172,7 @@ function Nav() {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "py-3" : "py-5"}`}
+        className={`fixed top-2 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "py-3" : "py-5"}`}
         style={{
           background: scrolled ? "rgba(8,12,20,.9)" : "transparent",
           backdropFilter: scrolled ? "blur(12px)" : "none",
@@ -802,8 +802,8 @@ function ContactSection() {
                 <textarea
                   required
                   className="input-field text-sm"
-                  rows="5"
-                  placeholder="Tell me about your project..."
+                  rows="4"
+                  placeholder="Let's work together!"
                   value={form.msg}
                   onChange={(e) => setForm({ ...form, msg: e.target.value })}
                   style={{ resize: "vertical" }}
