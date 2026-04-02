@@ -168,73 +168,61 @@ function Nav() {
   }, []);
 
   const links = ["About", "Projects", "Skills", "Contact"];
+
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "py-3" : "py-5"}`}
-      style={{
-        background: scrolled ? "rgba(8,12,20,.9)" : "transparent",
-        backdropFilter: scrolled ? "blur(12px)" : "none",
-        borderBottom: scrolled ? "1px solid #ffffff0a" : "none",
-      }}
-    >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between">
-        <a
-          href="#"
-          className="mono text-sm font-bold"
-          style={{ color: "var(--accent)" }}
-        >
-          &lt;Jayson Quisquirin/&gt;
-        </a>
-
-        <div className="hidden md:flex items-center gap-8">
-          {links.map((l) => (
-            <a key={l} href={`#${l.toLowerCase()}`} className="nav-link">
-              {l}
-            </a>
-          ))}
+    <>
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "py-3" : "py-5"}`}
+        style={{
+          background: scrolled ? "rgba(8,12,20,.9)" : "transparent",
+          backdropFilter: scrolled ? "blur(12px)" : "none",
+          borderBottom: scrolled ? "1px solid #ffffff0a" : "none",
+        }}
+      >
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between">
           <a
-            href="#contact"
-            className="glow-btn mono text-xs px-4 py-2 rounded-md font-bold"
-            style={{ background: "var(--accent)", color: "#080c14" }}
+            href="#"
+            className="mono text-sm font-bold"
+            style={{ color: "var(--accent)" }}
           >
-            Hire me
+            &lt;Jayson Quisquirin/&gt;
           </a>
-        </div>
 
-        <button
-          className="md:hidden flex items-center justify-center w-10 h-10 rounded border border-white/10"
-          onClick={() => setMobileOpen((s) => !s)}
-          aria-label="Toggle menu"
-        >
-          {mobileOpen ? "✕" : "☰"}
-        </button>
-      </div>
-
-      {mobileOpen && (
-        <div className="md:hidden bg-[#08141d] border-t border-white/10">
-          <div className="flex flex-col px-4 py-3 gap-2">
+          <div className="hidden md:flex items-center gap-8">
             {links.map((l) => (
-              <a
-                key={l}
-                href={`#${l.toLowerCase()}`}
-                className="mono text-sm px-3 py-2 rounded hover:bg-white/10"
-                onClick={() => setMobileOpen(false)}
-              >
+              <a key={l} href={`#${l.toLowerCase()}`} className="nav-link">
                 {l}
               </a>
             ))}
-            <a
-              href="#contact"
-              className="mono text-sm px-3 py-2 rounded font-bold"
-              style={{ background: "var(--accent)", color: "#080c14" }}
-              onClick={() => setMobileOpen(false)}
-            >
-              Hire me
-            </a>
           </div>
+
+          <button
+            className="md:hidden flex items-center justify-center w-10 h-10 rounded border border-white/10"
+            onClick={() => setMobileOpen((s) => !s)}
+            aria-label="Toggle menu"
+          >
+            {mobileOpen ? "✕" : "☰"}
+          </button>
         </div>
-      )}
-    </nav>
+
+        {mobileOpen && (
+          <div className="md:hidden bg-[#08141d] border-t border-white/10">
+            <div className="flex flex-col px-4 py-3 gap-2">
+              {links.map((l) => (
+                <a
+                  key={l}
+                  href={`#${l.toLowerCase()}`}
+                  className="mono text-sm px-3 py-2 rounded hover:bg-white/10"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {l}
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+      </nav>
+    </>
   );
 }
 
