@@ -796,14 +796,14 @@ function ContactSection() {
                   color: "var(--accent)",
                 }}
               >
-                Send another
+                Send me another
               </button>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label className="mono text-xs text-gray-500 block mb-2">
-                  Name
+                  Your Name
                 </label>
                 <input
                   required
@@ -815,20 +815,20 @@ function ContactSection() {
               </div>
               <div>
                 <label className="mono text-xs text-gray-500 block mb-2">
-                  Email
+                  Your Email
                 </label>
                 <input
                   required
                   type="email"
                   className="input-field text-sm"
-                  placeholder="you@example.com"
+                  placeholder="youremail@example.com"
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
                 />
               </div>
               <div>
                 <label className="mono text-xs text-gray-500 block mb-2">
-                  Message
+                  Message Me
                 </label>
                 <textarea
                   required
@@ -860,7 +860,7 @@ function ContactSection() {
                 }`}
                 style={{ background: "var(--accent)", color: "#080c14" }}
               >
-                {loading ? "Sending..." : "Send Message →"}
+                {loading ? "Sending..." : "Send Me a message →"}
               </button>
             </form>
           )}
