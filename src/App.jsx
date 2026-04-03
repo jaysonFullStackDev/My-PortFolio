@@ -173,7 +173,7 @@ function Nav() {
   return (
     <>
       <nav
-        className={`fixed top-2 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "py-3" : "py-5"}`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "py-3" : "py-5"}`}
         style={{
           background: scrolled ? "rgba(8,12,20,.9)" : "transparent",
           backdropFilter: scrolled ? "blur(12px)" : "none",
@@ -839,7 +839,7 @@ function ContactSection() {
               </div>
 
               {/* reCAPTCHA v2 */}
-              <div>
+              <div className="flex justify-center">
                 <ReCAPTCHA
                   sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY} // must be v2 key
                   onChange={(token) => setRecaptchaToken(token)}
