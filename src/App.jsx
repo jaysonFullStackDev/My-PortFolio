@@ -144,6 +144,12 @@ const skills = [
       "https://github.githubassets.com/images/modules/site/features/actions-icon-actions.svg",
   },
   {
+    name: "Linux",
+    cat: "DevOps",
+    image:
+      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg",
+  },
+  {
     name: "C#",
     cat: "Programming Language",
     image:
@@ -200,6 +206,18 @@ const timeline = [
     role: "Bachelor of Science in Information Technology",
     co: "STI College Baguio",
     desc: "Graduated with honours. Specialisation in distributed systems and algorithms.",
+  },
+  {
+    year: "February 2026-Present",
+    role: "Full-stack Web Developer (Bootcamp)",
+    co: "By Hitesh Choudhari (Udemy)",
+    desc: [
+      "Front-End: HTML5, CSS3, JavaScript, React.js, Tailwind CSS, Bootstrap",
+      "Back-End: Node.js, Express.js, Next.js",
+      "Database: MongoDB, PostgreSQL, Prisma ORM",
+      "Deployment: Vercel, Render",
+      "Version Control: Git, GitHub",
+    ],
   },
 ];
 
