@@ -442,9 +442,9 @@ function HeroSection() {
           >
             IT graduate with hands-on experience in technical support,
             troubleshooting, and ICT inventory management. Skilled in Java,
-            JavaScript, and cloud computing (AWS). Seeking an entry-level IT
-            support or junior developer role where I can apply problem-solving
-            skills and contribute to efficient system operations.
+            JavaScript, and cloud computing (AWS). Seeking a junior developer
+            role where I can apply problem-solving skills and contribute to
+            efficient system operations.
           </p>
 
           <div
