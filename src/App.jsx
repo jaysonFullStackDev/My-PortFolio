@@ -91,33 +91,79 @@ const skills = [
       "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
   },
   {
-    name: "Nodemon",
+    name: "JWT",
     cat: "Backend",
-    image: "https://www.vectorlogo.zone/logos/nodemonio/nodemonio-icon.svg",
+    image: "https://jwt.io/img/pic_logo.svg",
   },
-  { name: "AWS IAM", cat: "DevOps", image: "/img/logo/iam.png" },
-  { name: "AWS S3 Bucket", cat: "DevOps", image: "/img/logo/s3bucket.png" },
+  {
+    name: "Nodemailer",
+    cat: "Backend",
+    image: "https://nodemailer.com/img/nm_logo_200x136.png",
+  },
+  {
+    name: "CORS",
+    cat: "Backend",
+    image: "https://upload.wikimedia.org/wikipedia/commons/d/db/Npm-logo.svg",
+  },
+  {
+    name: "dotenv",
+    cat: "Backend",
+    image:
+      "https://raw.githubusercontent.com/motdotla/dotenv/master/dotenv.svg",
+  },
+  {
+    name: "MySQL",
+    cat: "Backend",
+    image: "https://upload.wikimedia.org/wikipedia/en/d/dd/MySQL_logo.svg",
+  },
+  {
+    name: "Microsoft SQL Server",
+    cat: "Backend",
+    image: "https://www.svgrepo.com/show/303229/microsoft-sql-server-logo.svg",
+  },
+  {
+    name: "AWS",
+    cat: "DevOps",
+    image: "https://logo.svgcdn.com/logos/aws.svg",
+  },
+  {
+    name: "Vercel",
+    cat: "DevOps",
+    image:
+      "https://assets.vercel.com/image/upload/front/favicon/vercel/180x180.png",
+  },
+  {
+    name: "Render",
+    cat: "DevOps",
+    image: "https://logo.svgcdn.com/simple-icons/render-dark.svg",
+  },
+  {
+    name: "GitHub Action",
+    cat: "DevOps",
+    image:
+      "https://github.githubassets.com/images/modules/site/features/actions-icon-actions.svg",
+  },
   {
     name: "C#",
-    cat: "Language",
+    cat: "Programming Language",
     image:
       "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg",
   },
   {
     name: "Python",
-    cat: "Language",
+    cat: "Programming Language",
     image:
       "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
   },
   {
     name: "Java",
-    cat: "Language",
+    cat: "Programming Language",
     image:
       "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg",
   },
   {
     name: "JavaScript",
-    cat: "Language",
+    cat: "Programming Language",
     image:
       "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
   },
@@ -796,7 +842,7 @@ function ContactSection() {
                   color: "var(--accent)",
                 }}
               >
-                Send me another
+                Send me another.
               </button>
             </div>
           ) : (
