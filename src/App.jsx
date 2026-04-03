@@ -645,11 +645,14 @@ function ContactSection() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:5000/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, token: recaptchaToken }),
-      });
+      const res = await fetch(
+        "https://my-portfolio-backend-j6vp.onrender.com",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...form, token: recaptchaToken }),
+        },
+      );
 
       const data = await res.json();
       if (res.ok) {
