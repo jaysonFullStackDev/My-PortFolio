@@ -646,7 +646,7 @@ function ContactSection() {
 
     try {
       const res = await fetch(
-        "https://my-portfolio-backend-j6vp.onrender.com/contact",
+        "https://my-portfolio-backend-j6vp.onrender.com/",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
