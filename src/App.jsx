@@ -57,7 +57,7 @@ const projects = [
     ],
     color: "#ff9f5a",
     icon: "◎",
-    stat: "Deployed using vercel for frontend and render for backend",
+    stat: "Deployed using vercel and render",
   },
 ];
 
