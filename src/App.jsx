@@ -10,6 +10,7 @@ const projects = [
     color: "#00ff87",
     icon: "▶",
     stat: "Deployed using vercel",
+    github: "https://github.com/jaysonFullStackDev/Calculator.git",
   },
   {
     title: "Birthday Website Greetings",
@@ -25,6 +26,7 @@ const projects = [
     color: "#60efff",
     icon: "◈",
     stat: "Deployed using vercel",
+    github: "",
   },
   {
     title: "Equipment Inventory Management System",
@@ -39,6 +41,8 @@ const projects = [
     color: "#bf97ff",
     icon: "◉",
     stat: "Local desktop application for Windows",
+    github:
+      "https://github.com/jaysonFullStackDev/Equipment-Inventory-System.git",
   },
   {
     title: "My Portfolio Website",
@@ -58,6 +62,7 @@ const projects = [
     color: "#ff9f5a",
     icon: "◎",
     stat: "Deployed using vercel and render",
+    github: "https://github.com/jaysonFullStackDev/My-PortFolio.git",
   },
 ];
 
@@ -213,6 +218,18 @@ const skills = [
 
 const timeline = [
   {
+    year: "February 2026-Present",
+    role: "Full-stack Web Developer (Bootcamp)",
+    co: "By Hitesh Choudhari (Udemy)",
+    desc: [
+      "Front-End: HTML5, CSS3, JavaScript, React.js, Tailwind CSS, Bootstrap",
+      "Back-End: Node.js, Express.js, Next.js",
+      "Database: MongoDB, PostgreSQL, Prisma ORM",
+      "Deployment: Vercel, Render",
+      "Version Control: Git, GitHub",
+    ],
+  },
+  {
     year: "2025",
     role: "On-The-Job Training",
     co: "Department of Information and Communications Technology (DICT)",
@@ -230,18 +247,6 @@ const timeline = [
     role: "Bachelor of Science in Information Technology",
     co: "STI College Baguio",
     desc: "Graduated with honours. Specialisation in distributed systems and algorithms.",
-  },
-  {
-    year: "February 2026-Present",
-    role: "Full-stack Web Developer (Bootcamp)",
-    co: "By Hitesh Choudhari (Udemy)",
-    desc: [
-      "Front-End: HTML5, CSS3, JavaScript, React.js, Tailwind CSS, Bootstrap",
-      "Back-End: Node.js, Express.js, Next.js",
-      "Database: MongoDB, PostgreSQL, Prisma ORM",
-      "Deployment: Vercel, Render",
-      "Version Control: Git, GitHub",
-    ],
   },
 ];
 
@@ -537,7 +542,10 @@ function ProjectCard({ p, i }) {
           >
             Live Demo ↗
           </button>
-          <button
+          <a
+            href={p.github}
+            target="_blank"
+            rel="noopener noreferrer"
             className="mono text-xs px-3 sm:px-4 py-2 rounded transition-all"
             style={{ border: "1px solid #ffffff15", color: "#9ca3af" }}
             onMouseEnter={(e) => {
@@ -550,7 +558,7 @@ function ProjectCard({ p, i }) {
             }}
           >
             GitHub →
-          </button>
+          </a>
         </div>
       </div>
     </div>
