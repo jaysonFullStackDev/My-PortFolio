@@ -64,6 +64,7 @@ const projects = [
     color: "#ff9f5a",
     icon: "◎",
     stat: "Deployed using vercel and render",
+    live: "https://jayson-quisquirin.vercel.app/",
     github: "https://github.com/jaysonFullStackDev/My-PortFolio.git",
   },
 ];
