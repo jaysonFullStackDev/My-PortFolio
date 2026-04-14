@@ -27,7 +27,7 @@ const projects = [
     color: "#60efff",
     icon: "◈",
     stat: "Deployed using vercel, render, and supabase",
-    live: "https://pos-one-tan.vercel.app/",
+    live: "https://brewhq.vercel.app/",
     github: "https://github.com/jaysonFullStackDev/POS.git",
   },
   {
