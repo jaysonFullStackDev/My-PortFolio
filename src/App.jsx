@@ -221,7 +221,18 @@ const skills = [
 
 const timeline = [
   {
-    year: "February 2026-Present",
+    year: "March 2026 - Present",
+    role: "BrewPOS — Multi-Tenant Coffee Shop POS System",
+    co: "Solo Developer | Full-Stack Web Application",
+    desc: [
+      "Designed and developed a full-stack, multi-tenant Point of Sale and business management platform for small coffee shops. The system enables shop owners to sign up via Google OAuth, configure their business, and manage daily operations including order processing, inventory tracking, expense recording, and profit analysis — all within a fully isolated tenant environment.",
+      "Frontend: Next.js, TypeScript, Tailwind CSS, Socket.IO Client, React Context, Recharts, Lucide React",
+      "Backend: Node.js, Express.js, PostgreSQL, JWT, bcrypt, Socket.IO, Google OAuth 2.0, RESTful API design",
+      "DevOps & Deployment: Vercel, Render, Supabase, GitHub Actions",
+    ],
+  },
+  {
+    year: "February 2025-Present",
     role: "Full-stack Web Developer (Bootcamp)",
     co: "By Hitesh Choudhari (Udemy)",
     desc: [
