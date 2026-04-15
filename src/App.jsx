@@ -459,11 +459,13 @@ function HeroSection() {
           <p
             className={`text-xs sm:text-sm md:text-base lg:text-lg text-gray-400 leading-relaxed mb-4 sm:mb-10 max-w-lg fade-up delay-3 ${vis ? "" : "opacity-0"}`}
           >
-            IT graduate with hands-on experience in technical support,
-            troubleshooting, and ICT inventory management. Skilled in Java,
-            JavaScript, and cloud computing (AWS). Seeking a junior developer
-            role where I can apply problem-solving skills and contribute to
-            efficient system operations.
+            IT Professional | Software Development & Systems Management |
+            Full-Stack Developer Accomplished IT professional with proven
+            experience in software development, technical support,
+            troubleshooting, and ICT inventory management, with a strong track
+            record of optimizing system operations and delivering efficient,
+            scalable solutions. Seeking a full-stack developer role to leverage
+            technical expertise and drive impactful technology solutions.
           </p>
 
           <div
