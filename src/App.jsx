@@ -185,6 +185,18 @@ const skills = [
       "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg",
   },
   {
+    name: "Docker",
+    cat: "DevOps",
+    image:
+      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg",
+  },
+  {
+    name: "CI/CD Pipelines",
+    cat: "DevOps",
+    image:
+      "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/githubactions/githubactions-original.svg",
+  },
+  {
     name: "C#",
     cat: "Programming Language",
     image:
