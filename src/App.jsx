@@ -9,6 +9,7 @@ const projects = [
     tags: ["PHP", "MySQL", "Bootstrap", "Chart.js", "PHPMailer", "Apache"],
     color: "#00ff87",
     icon: "🥗",
+    preview: "img/NutriGuidePH.PNG",
     stat: "Local XAMPP application",
     github: "https://github.com/jaysonFullStackDev/NutriGuidePH.git",
   },
