@@ -553,7 +553,7 @@ function ProjectCard({ p, i }) {
           ))}
         </div>
         <div className="flex gap-2 sm:gap-3 flex-wrap">
-          {p.live ? (
+          {p.live && (
             <a
               href={p.live}
               target="_blank"
@@ -573,23 +573,6 @@ function ProjectCard({ p, i }) {
             >
               Live Demo ↗
             </a>
-          ) : (
-            <button
-              className="mono text-xs px-3 sm:px-4 py-2 rounded transition-all"
-              style={{
-                background: p.color + "18",
-                color: p.color,
-                border: "1px solid " + p.color + "30",
-              }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.background = p.color + "30")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.background = p.color + "18")
-              }
-            >
-              Live Demo ↗
-            </button>
           )}
           <a
             href={p.github}
