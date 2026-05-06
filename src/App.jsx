@@ -26,6 +26,7 @@ const projects = [
     ],
     color: "#60efff",
     icon: "◈",
+    preview: "img/brewPOS landing page.PNG",
     stat: "Deployed using vercel, render, and supabase",
     live: "https://brewhq.vercel.app/",
     github: "https://github.com/jaysonFullStackDev/POS.git",
@@ -63,6 +64,7 @@ const projects = [
     ],
     color: "#ff9f5a",
     icon: "◎",
+    preview: "img/portfolio.PNG",
     stat: "Deployed using vercel and render",
     live: "https://jayson-quisquirin.vercel.app/",
     github: "https://github.com/jaysonFullStackDev/My-PortFolio.git",
@@ -504,17 +506,25 @@ function ProjectCard({ p, i }) {
       className="card-hover rounded-xl overflow-hidden fade-up"
       style={{ animationDelay: `${i * 0.1}s`, background: "#0d1420" }}
     >
-      <div className="project-img h-44 flex items-center justify-center">
-        <span
-          style={{
-            fontSize: 64,
-            filter: "drop-shadow(0 0 20px " + p.color + "50)",
-            animation: "float 3s ease-in-out infinite",
-            animationDelay: i * 0.3 + "s",
-          }}
-        >
-          {p.icon}
-        </span>
+      <div className="project-img h-44 flex items-center justify-center relative overflow-hidden">
+        {p.preview ? (
+          <img
+            src={p.preview}
+            alt={p.title}
+            className="w-full h-full object-cover object-top"
+          />
+        ) : (
+          <span
+            style={{
+              fontSize: 64,
+              filter: "drop-shadow(0 0 20px " + p.color + "50)",
+              animation: "float 3s ease-in-out infinite",
+              animationDelay: i * 0.3 + "s",
+            }}
+          >
+            {p.icon}
+          </span>
+        )}
         <div className="absolute top-3 right-3">
           <span
             className="mono text-xs px-2 py-1 rounded"
