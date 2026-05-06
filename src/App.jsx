@@ -372,8 +372,8 @@ function HeroSection() {
       style={{ paddingTop: "80px" }}
     >
       <div
-        className="absolute right-[10%] sm:right-[12%] top-1/2 -translate-y-1/2 hidden sm:block"
-        style={{ width: 340, height: 340 }}
+        className="absolute right-[10%] sm:right-[12%] top-1/2 -translate-y-1/2 hidden md:block"
+        style={{ width: "clamp(280px, 30vw, 400px)", height: "clamp(280px, 30vw, 400px)" }}
       >
         <svg
           viewBox="0 0 340 340"
