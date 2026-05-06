@@ -4,13 +4,13 @@ import ReCAPTCHA from "react-google-recaptcha";
 /* ── data ── */
 const projects = [
   {
-    title: "Calculator App",
-    desc: "A simple calculator application built with React and tailwind.",
-    tags: ["React", "JavaScript", "Tailwind CSS", "Vite"],
+    title: "NutriGuidePH",
+    desc: "A community-based nutrition monitoring system for schools — tracks student BMI, manages feeding programs, sends guardian email alerts, and generates DepEd-formatted reports.",
+    tags: ["PHP", "MySQL", "Bootstrap", "Chart.js", "PHPMailer", "Apache"],
     color: "#00ff87",
-    icon: "▶",
-    stat: "Deployed using vercel",
-    github: "https://github.com/jaysonFullStackDev/Calculator.git",
+    icon: "🥗",
+    stat: "Local XAMPP application",
+    github: "https://github.com/jaysonFullStackDev/NutriGuidePH.git",
   },
   {
     title: "BrewPOS",
