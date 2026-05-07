@@ -386,126 +386,139 @@ function HeroSection() {
       className="relative min-h-screen flex items-center grid-bg hero-gradient"
       style={{ paddingTop: "80px" }}
     >
-      <div
-        className="absolute right-[10%] sm:right-[12%] top-1/2 -translate-y-1/2 hidden md:block"
-        style={{ width: "clamp(280px, 30vw, 400px)", height: "clamp(280px, 30vw, 400px)" }}
-      >
-        <svg
-          viewBox="0 0 340 340"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="ring-spin w-full h-full opacity-20"
-        >
-          <circle
-            cx="170"
-            cy="170"
-            r="160"
-            stroke="url(#rg)"
-            strokeWidth=".8"
-            strokeDasharray="6 4"
-          />
-          <circle
-            cx="170"
-            cy="170"
-            r="120"
-            stroke="url(#rg)"
-            strokeWidth=".5"
-            strokeDasharray="3 8"
-          />
-          <circle
-            cx="170"
-            cy="170"
-            r="80"
-            stroke="url(#rg)"
-            strokeWidth=".6"
-            strokeDasharray="10 5"
-          />
-          <defs>
-            <linearGradient
-              id="rg"
-              x1="0"
-              y1="0"
-              x2="340"
-              y2="340"
-              gradientUnits="userSpaceOnUse"
-            >
-              <stop stopColor="#00ff87" />
-              <stop offset="1" stopColor="#60efff" />
-            </linearGradient>
-          </defs>
-        </svg>
-        <div className="absolute inset-2 rounded-full overflow-hidden border-4 border-green-400 shadow-[0_0_30px_#00ff8750]">
-          <img
-            src="img/avatar.png"
-            alt="Avatar"
-            className="w-full h-full object-cover object-top"
-          />
-        </div>
-      </div>
-
       <div className="max-w-6xl mx-auto px-4 sm:px-6 w-full">
-        <div className="max-w-2xl">
-          <p
-            className={`section-label mb-2 sm:mb-4 fade-up text-xs sm:text-sm ${vis ? "" : "opacity-0"}`}
-          >
-            Hello, world
-          </p>
-          <h1
-            className={`text-xl sm:text-3xl md:text-5xl lg:text-7xl font-extrabold leading-snug mb-2 sm:mb-4 fade-up delay-1 ${vis ? "" : "opacity-0"}`}
-          >
-            I'm{" "}
-            <span
-              style={{
-                background:
-                  "linear-gradient(90deg,var(--accent),var(--accent2))",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
+        <div className="flex flex-col md:flex-row items-center gap-8 md:gap-16">
+          {/* Text */}
+          <div className="flex-1 max-w-xl">
+            <p
+              className={`section-label mb-2 fade-up text-xs sm:text-sm ${vis ? "" : "opacity-0"}`}
             >
-              Jayson Quisquirin
-            </span>
-          </h1>
-          <div
-            className={`text-base sm:text-lg md:text-2xl lg:text-4xl font-bold text-gray-300 mb-3 sm:mb-6 fade-up delay-2 ${vis ? "" : "opacity-0"}`}
-            style={{ minHeight: "1.5rem" }}
-          >
-            <span className="cursor">{txt}</span>
-          </div>
-          <p
-            className={`text-xs sm:text-sm md:text-base lg:text-lg text-gray-400 leading-relaxed mb-4 sm:mb-10 max-w-lg fade-up delay-3 ${vis ? "" : "opacity-0"}`}
-          >
-            IT Professional | Software Development & Systems Management |
-            Full-Stack Developer Accomplished IT professional with proven
-            experience in software development, technical support,
-            troubleshooting, and ICT inventory management, with a strong track
-            record of optimizing system operations and delivering efficient,
-            scalable solutions. Seeking a full-stack developer role to leverage
-            technical expertise and drive impactful technology solutions.
-          </p>
+              Hello, world
+            </p>
+            <h1
+              className={`text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-2 fade-up delay-1 ${vis ? "" : "opacity-0"}`}
+            >
+              I'm{" "}
+              <span
+                style={{
+                  background:
+                    "linear-gradient(90deg,var(--accent),var(--accent2))",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                Jayson Quisquirin
+              </span>
+            </h1>
+            <div
+              className={`text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-300 mb-3 fade-up delay-2 ${vis ? "" : "opacity-0"}`}
+              style={{ minHeight: "1.5rem" }}
+            >
+              <span className="cursor">{txt}</span>
+            </div>
 
+            {/* Gradient separator */}
+            <div
+              className={`fade-up delay-2 ${vis ? "" : "opacity-0"}`}
+              style={{
+                width: 48,
+                height: 3,
+                background: "linear-gradient(90deg,var(--accent),var(--accent2))",
+                borderRadius: 2,
+                margin: "12px 0 16px",
+              }}
+            />
+
+            <p
+              className={`text-sm md:text-base text-gray-400 leading-relaxed mb-6 fade-up delay-3 ${vis ? "" : "opacity-0"}`}
+            >
+              Building scalable full-stack applications with modern technologies.
+              Passionate about clean code, system optimization, and delivering
+              impactful solutions.
+            </p>
+
+            <div
+              className={`flex flex-col sm:flex-row gap-3 fade-up delay-4 ${vis ? "" : "opacity-0"}`}
+            >
+              <a
+                href="#projects"
+                className="glow-btn mono text-xs sm:text-sm px-5 sm:px-7 py-2.5 sm:py-3 rounded-md font-bold text-center"
+                style={{ background: "var(--accent)", color: "#080c14" }}
+              >
+                View Projects →
+              </a>
+              <a
+                href="#contact"
+                className="mono text-xs sm:text-sm px-5 sm:px-7 py-2.5 sm:py-3 rounded-md font-bold text-center transition-all"
+                style={{ border: "1px solid #00ff8740", color: "var(--accent)" }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "#00ff8715";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "transparent";
+                }}
+              >
+                Get in Touch
+              </a>
+            </div>
+          </div>
+
+          {/* Avatar */}
           <div
-            className={`flex flex-col sm:flex-row gap-2 sm:gap-4 fade-up delay-4 ${vis ? "" : "opacity-0"}`}
+            className="relative shrink-0 hidden md:block"
+            style={{ width: "clamp(260px, 28vw, 360px)", height: "clamp(260px, 28vw, 360px)" }}
           >
-            <a
-              href="#projects"
-              className="glow-btn mono text-xs sm:text-sm px-4 sm:px-7 py-2 sm:py-3 rounded-md font-bold text-center"
-              style={{ background: "var(--accent)", color: "#080c14" }}
+            <svg
+              viewBox="0 0 340 340"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className="ring-spin w-full h-full opacity-20 absolute inset-0"
             >
-              View Projects →
-            </a>
-            <a
-              href="#contact"
-              className="mono text-xs sm:text-sm px-4 sm:px-7 py-2 sm:py-3 rounded-md font-bold text-center transition-all"
-              style={{ border: "1px solid #00ff8740", color: "var(--accent)" }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = "#00ff8715";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = "transparent";
-              }}
-            >
-              Get in Touch
-            </a>
+              <circle
+                cx="170"
+                cy="170"
+                r="160"
+                stroke="url(#rg)"
+                strokeWidth=".8"
+                strokeDasharray="6 4"
+              />
+              <circle
+                cx="170"
+                cy="170"
+                r="120"
+                stroke="url(#rg)"
+                strokeWidth=".5"
+                strokeDasharray="3 8"
+              />
+              <circle
+                cx="170"
+                cy="170"
+                r="80"
+                stroke="url(#rg)"
+                strokeWidth=".6"
+                strokeDasharray="10 5"
+              />
+              <defs>
+                <linearGradient
+                  id="rg"
+                  x1="0"
+                  y1="0"
+                  x2="340"
+                  y2="340"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop stopColor="#00ff87" />
+                  <stop offset="1" stopColor="#60efff" />
+                </linearGradient>
+              </defs>
+            </svg>
+            <div className="absolute inset-4 rounded-full overflow-hidden border-4 border-green-400 shadow-[0_0_30px_#00ff8750]">
+              <img
+                src="img/avatar.png"
+                alt="Avatar"
+                className="w-full h-full object-cover object-top"
+              />
+            </div>
           </div>
         </div>
       </div>
