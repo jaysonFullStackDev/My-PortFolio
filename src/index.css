@@ -7,6 +7,9 @@
 * {
   box-sizing: border-box;
 }
+html {
+  scroll-behavior: smooth;
+}
 body {
   background: #080c14;
   color: #e8eaf0;
@@ -26,7 +29,14 @@ body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+  html {
+    scroll-behavior: auto !important;
+  }
   .reveal, .reveal-left, .reveal-right, .reveal-scale {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .timeline-item {
     opacity: 1 !important;
     transform: none !important;
   }
@@ -473,6 +483,7 @@ body {
 /* ── Skill crossfade ── */
 .skill-grid {
   position: relative;
+  animation: fadeIn 0.25s ease both;
 }
 .skill-grid-item {
   animation: fadeUp 0.4s ease both;
@@ -513,6 +524,7 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-family: "Space Mono", monospace;
+  animation: countUp 0.6s ease both;
 }
 .stat-label {
   font-size: 0.65rem;

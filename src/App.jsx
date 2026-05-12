@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 
 /* ── scroll reveal hook ── */
@@ -15,6 +15,54 @@ function useReveal() {
     return () => obs.disconnect();
   }, []);
   return ref;
+}
+
+/* ── timeline item reveal hook ── */
+function useTimelineReveal() {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { el.classList.add("visible"); obs.unobserve(el); } },
+      { threshold: 0.2 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return ref;
+}
+
+/* ── counter animation hook ── */
+function useCountUp(target, duration = 1200) {
+  const [count, setCount] = useState(0);
+  const [started, setStarted] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting && !started) { setStarted(true); obs.unobserve(el); } },
+      { threshold: 0.5 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [started]);
+
+  useEffect(() => {
+    if (!started) return;
+    let startTime = null;
+    const step = (timestamp) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / duration, 1);
+      setCount(Math.floor(progress * target));
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }, [started, target, duration]);
+
+  return { count, ref };
 }
 
 /* ── data ── */
@@ -299,11 +347,28 @@ const timeline = [
 function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("about");
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", h);
     return () => window.removeEventListener("scroll", h);
+  }, []);
+
+  /* track which section is in view */
+  useEffect(() => {
+    const sections = ["about", "projects", "skills", "contact"];
+    const observers = sections.map((id) => {
+      const el = document.getElementById(id);
+      if (!el) return null;
+      const obs = new IntersectionObserver(
+        ([entry]) => { if (entry.isIntersecting) setActiveSection(id); },
+        { threshold: 0.35 }
+      );
+      obs.observe(el);
+      return obs;
+    });
+    return () => observers.forEach((o) => o && o.disconnect());
   }, []);
 
   const links = ["About", "Projects", "Skills", "Contact"];
@@ -329,7 +394,11 @@ function Nav() {
 
           <div className="hidden md:flex items-center gap-8">
             {links.map((l) => (
-              <a key={l} href={`#${l.toLowerCase()}`} className="nav-link">
+              <a
+                key={l}
+                href={`#${l.toLowerCase()}`}
+                className={`nav-link${activeSection === l.toLowerCase() ? " active" : ""}`}
+              >
                 {l}
               </a>
             ))}
@@ -351,7 +420,7 @@ function Nav() {
                 <a
                   key={l}
                   href={`#${l.toLowerCase()}`}
-                  className="mono text-sm px-3 py-2 rounded hover:bg-white/10"
+                  className={`mono text-sm px-3 py-2 rounded hover:bg-white/10${activeSection === l.toLowerCase() ? " text-green-400" : ""}`}
                   onClick={() => setMobileOpen(false)}
                 >
                   {l}
@@ -543,10 +612,23 @@ function HeroSection() {
 }
 
 function ProjectCard({ p, i }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { el.classList.add("visible"); obs.unobserve(el); } },
+      { threshold: 0.1 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
   return (
     <div
-      className="card-hover rounded-xl overflow-hidden fade-up"
-      style={{ animationDelay: `${i * 0.1}s`, background: "#0d1420" }}
+      ref={ref}
+      className="card-hover rounded-xl overflow-hidden reveal"
+      style={{ transitionDelay: `${i * 0.12}s`, background: "#0d1420" }}
     >
       <div className="project-img h-44 flex items-center justify-center relative overflow-hidden">
         {p.preview ? (
@@ -672,11 +754,63 @@ function ProjectsSection() {
   );
 }
 
-// ...existing code...
+// ── Timeline item with individual scroll reveal ──
+function TimelineItem({ t, i }) {
+  const ref = useTimelineReveal();
+  return (
+    <div
+      ref={ref}
+      className="mb-8 sm:mb-10 relative timeline-item"
+      style={{ transitionDelay: `${i * 0.12}s` }}
+    >
+      <div
+        className="timeline-dot absolute"
+        style={{ left: -20, top: 4 }}
+      />
+      <div
+        className="mono text-xs mb-1"
+        style={{ color: "var(--accent)" }}
+      >
+        {t.year}
+      </div>
+      <div className="font-bold text-xs sm:text-base">{t.role}</div>
+      <div className="text-xs text-gray-500 mono mb-1 sm:mb-2">
+        {t.co}
+      </div>
+      <ul className="text-gray-400 text-xs sm:text-sm leading-relaxed list-disc list-inside">
+        {Array.isArray(t.desc) ? (
+          t.desc.map((item, idx) => <li key={idx}>{item}</li>)
+        ) : (
+          <li>{t.desc}</li>
+        )}
+      </ul>
+    </div>
+  );
+}
+
+// ── Animated stat counter ──
+function StatCounter({ target, label, suffix = "+" }) {
+  const { count, ref } = useCountUp(target);
+  return (
+    <div ref={ref} className="text-center px-4">
+      <div className="stat-number">
+        {count}{suffix}
+      </div>
+      <div className="stat-label mt-1">{label}</div>
+    </div>
+  );
+}
+
 function SkillsSection() {
   const skillsRef = useReveal();
   const cats = [...new Set(skills.map((s) => s.cat))];
   const [active, setActive] = useState("Frontend");
+  const [animKey, setAnimKey] = useState(0);
+
+  const handleCatChange = (c) => {
+    setActive(c);
+    setAnimKey((k) => k + 1); // re-trigger animation on tab switch
+  };
 
   return (
     <section
@@ -707,13 +841,24 @@ function SkillsSection() {
           />
         </div>
 
+        {/* Stats row */}
+        <div
+          className="flex flex-wrap justify-center gap-6 sm:gap-10 mb-12 sm:mb-16 py-6 rounded-xl"
+          style={{ background: "#0d142080", border: "1px solid #ffffff08" }}
+        >
+          <StatCounter target={4} label="Projects Built" suffix="+" />
+          <StatCounter target={1} label="Years Learning" suffix="+" />
+          <StatCounter target={28} label="Technologies" suffix="+" />
+          <StatCounter target={100} label="Commits" suffix="+" />
+        </div>
+
         <div className="grid md:grid-cols-2 gap-8 sm:gap-12 md:gap-16 items-start">
           <div>
             <div className="flex gap-2 mb-6 sm:mb-8 flex-wrap">
               {cats.map((c) => (
                 <button
                   key={c}
-                  onClick={() => setActive(c)}
+                  onClick={() => handleCatChange(c)}
                   className="mono text-xs px-3 sm:px-4 py-1.5 sm:py-2 rounded transition-all"
                   style={{
                     background: active === c ? "var(--accent)" : "#ffffff0a",
@@ -729,7 +874,8 @@ function SkillsSection() {
             </div>
 
             <div
-              className="space-y-4 sm:space-y-5"
+              key={animKey}
+              className="skill-grid"
               style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
@@ -743,8 +889,8 @@ function SkillsSection() {
                 .map((s, i) => (
                   <div
                     key={s.name}
-                    className="fade-up flex items-center gap-3"
-                    style={{ animationDelay: i * 0.08 + "s" }}
+                    className="skill-grid-item flex items-center gap-3"
+                    style={{ animationDelay: i * 0.06 + "s" }}
                   >
                     <img
                       src={s.image}
@@ -768,33 +914,7 @@ function SkillsSection() {
               style={{ borderLeft: "1px solid #00ff8730" }}
             >
               {timeline.map((t, i) => (
-                <div
-                  key={i}
-                  className="mb-8 sm:mb-10 relative fade-up"
-                  style={{ animationDelay: i * 0.1 + "s" }}
-                >
-                  <div
-                    className="timeline-dot absolute"
-                    style={{ left: -20, top: 4 }}
-                  />
-                  <div
-                    className="mono text-xs mb-1"
-                    style={{ color: "var(--accent)" }}
-                  >
-                    {t.year}
-                  </div>
-                  <div className="font-bold text-xs sm:text-base">{t.role}</div>
-                  <div className="text-xs text-gray-500 mono mb-1 sm:mb-2">
-                    {t.co}
-                  </div>
-                  <ul className="text-gray-400 text-xs sm:text-sm leading-relaxed list-disc list-inside">
-                    {Array.isArray(t.desc) ? (
-                      t.desc.map((item, idx) => <li key={idx}>{item}</li>)
-                    ) : (
-                      <li>{t.desc}</li>
-                    )}
-                  </ul>
-                </div>
+                <TimelineItem key={i} t={t} i={i} />
               ))}
             </div>
           </div>
@@ -803,7 +923,6 @@ function SkillsSection() {
     </section>
   );
 }
-// ...existing code...
 
 function ContactSection() {
   const contactRef = useReveal();
@@ -1061,14 +1180,48 @@ function Footer() {
 }
 
 function App() {
+  const [loaded, setLoaded] = useState(false);
+  const [showTop, setShowTop] = useState(false);
+
+  /* loader: fade out after page is ready */
+  useEffect(() => {
+    const timer = setTimeout(() => setLoaded(true), 600);
+    return () => clearTimeout(timer);
+  }, []);
+
+  /* back-to-top visibility */
+  useEffect(() => {
+    const h = () => setShowTop(window.scrollY > 400);
+    window.addEventListener("scroll", h);
+    return () => window.removeEventListener("scroll", h);
+  }, []);
+
   return (
     <>
+      {/* Loading screen */}
+      <div className={`loader-screen${loaded ? " hidden" : ""}`}>
+        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+          <div className="loader-dot" />
+          <div className="loader-dot" />
+          <div className="loader-dot" />
+        </div>
+      </div>
+
       <Nav />
       <HeroSection />
       <ProjectsSection />
       <SkillsSection />
       <ContactSection />
       <Footer />
+
+      {/* Back to top */}
+      <button
+        className={`back-to-top${showTop ? " visible" : ""}`}
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        aria-label="Back to top"
+      >
+        ↑
+      </button>
     </>
   );
 }
