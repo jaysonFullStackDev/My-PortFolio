@@ -1,5 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
+
+/* ── scroll reveal hook ── */
+function useReveal() {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { el.classList.add("visible"); obs.unobserve(el); } },
+      { threshold: 0.15 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return ref;
+}
 
 /* ── data ── */
 const projects = [
@@ -623,12 +639,14 @@ function ProjectCard({ p, i }) {
 }
 
 function ProjectsSection() {
+  const ref = useReveal();
   return (
     <section
+      ref={ref}
       id="projects"
-      className="py-16 sm:py-20 md:py-28 max-w-6xl mx-auto px-4 sm:px-6"
+      className="reveal-left py-16 sm:py-20 md:py-28 max-w-6xl mx-auto px-4 sm:px-6"
     >
-      <div className="mb-10 sm:mb-14 fade-up">
+      <div className="mb-10 sm:mb-14">
         <p className="section-label mb-2 sm:mb-3 text-xs sm:text-sm">
           Selected Work
         </p>
@@ -656,20 +674,22 @@ function ProjectsSection() {
 
 // ...existing code...
 function SkillsSection() {
+  const skillsRef = useReveal();
   const cats = [...new Set(skills.map((s) => s.cat))];
   const [active, setActive] = useState("Frontend");
 
   return (
     <section
+      ref={skillsRef}
       id="skills"
-      className="py-16 sm:py-20 md:py-28 grid-bg"
+      className="reveal-left py-16 sm:py-20 md:py-28 grid-bg"
       style={{
         borderTop: "1px solid #ffffff08",
         borderBottom: "1px solid #ffffff08",
       }}
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="mb-10 sm:mb-14 fade-up">
+        <div className="mb-10 sm:mb-14">
           <p className="section-label mb-2 sm:mb-3 text-xs sm:text-sm">
             What I work with
           </p>
@@ -786,6 +806,7 @@ function SkillsSection() {
 // ...existing code...
 
 function ContactSection() {
+  const contactRef = useReveal();
   const [form, setForm] = useState({ name: "", email: "", msg: "" });
   const [sent, setSent] = useState(false);
   const [recaptchaToken, setRecaptchaToken] = useState(null);
@@ -842,10 +863,11 @@ function ContactSection() {
 
   return (
     <section
+      ref={contactRef}
       id="contact"
-      className="py-16 sm:py-20 md:py-28 max-w-6xl mx-auto px-4 sm:px-6"
+      className="reveal-left py-16 sm:py-20 md:py-28 max-w-6xl mx-auto px-4 sm:px-6"
     >
-      <div className="mb-10 sm:mb-14 fade-up">
+      <div className="mb-10 sm:mb-14">
         <p className="section-label mb-2 sm:mb-3 text-xs sm:text-sm">
           Let's build together
         </p>
