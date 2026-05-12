@@ -726,7 +726,8 @@ function ProjectsSection() {
     <section
       ref={ref}
       id="projects"
-      className="reveal-left py-16 sm:py-20 md:py-28 max-w-6xl mx-auto px-4 sm:px-6"
+      className="slide-in py-16 sm:py-20 md:py-28 max-w-6xl mx-auto px-4 sm:px-6"
+      style={{ '--slide-from': '-60px' }}
     >
       <div className="mb-10 sm:mb-14">
         <p className="section-label mb-2 sm:mb-3 text-xs sm:text-sm">
@@ -816,8 +817,9 @@ function SkillsSection() {
     <section
       ref={skillsRef}
       id="skills"
-      className="reveal-left py-16 sm:py-20 md:py-28 grid-bg"
+      className="slide-in py-16 sm:py-20 md:py-28 grid-bg"
       style={{
+        '--slide-from': '60px',
         borderTop: "1px solid #ffffff08",
         borderBottom: "1px solid #ffffff08",
       }}
@@ -984,7 +986,8 @@ function ContactSection() {
     <section
       ref={contactRef}
       id="contact"
-      className="reveal-left py-16 sm:py-20 md:py-28 max-w-6xl mx-auto px-4 sm:px-6"
+      className="slide-in py-16 sm:py-20 md:py-28 max-w-6xl mx-auto px-4 sm:px-6"
+      style={{ '--slide-from': '-60px' }}
     >
       <div className="mb-10 sm:mb-14">
         <p className="section-label mb-2 sm:mb-3 text-xs sm:text-sm">
