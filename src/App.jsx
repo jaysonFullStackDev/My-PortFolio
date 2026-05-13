@@ -8,8 +8,13 @@ function useReveal() {
     const el = ref.current;
     if (!el) return;
     const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { el.classList.add("visible"); obs.unobserve(el); } },
-      { threshold: 0.15 }
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.classList.add("in-view");
+          obs.unobserve(el);
+        }
+      },
+      { threshold: 0.05 },
     );
     obs.observe(el);
     return () => obs.disconnect();
@@ -24,8 +29,13 @@ function useTimelineReveal() {
     const el = ref.current;
     if (!el) return;
     const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { el.classList.add("visible"); obs.unobserve(el); } },
-      { threshold: 0.2 }
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.classList.add("in-view");
+          obs.unobserve(el);
+        }
+      },
+      { threshold: 0.2 },
     );
     obs.observe(el);
     return () => obs.disconnect();
@@ -43,8 +53,13 @@ function useCountUp(target, duration = 1200) {
     const el = ref.current;
     if (!el) return;
     const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting && !started) { setStarted(true); obs.unobserve(el); } },
-      { threshold: 0.5 }
+      ([entry]) => {
+        if (entry.isIntersecting && !started) {
+          setStarted(true);
+          obs.unobserve(el);
+        }
+      },
+      { threshold: 0.5 },
     );
     obs.observe(el);
     return () => obs.disconnect();
@@ -362,8 +377,10 @@ function Nav() {
       const el = document.getElementById(id);
       if (!el) return null;
       const obs = new IntersectionObserver(
-        ([entry]) => { if (entry.isIntersecting) setActiveSection(id); },
-        { threshold: 0.35 }
+        ([entry]) => {
+          if (entry.isIntersecting) setActiveSection(id);
+        },
+        { threshold: 0.35 },
       );
       obs.observe(el);
       return obs;
@@ -376,7 +393,7 @@ function Nav() {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "py-3" : "py-5"}`}
+        className={`nav-entrance fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "py-3" : "py-5"}`}
         style={{
           background: scrolled ? "rgba(8,12,20,.9)" : "transparent",
           backdropFilter: scrolled ? "blur(12px)" : "none",
@@ -442,8 +459,26 @@ function HeroSection() {
   const [vis, setVis] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => setVis(true), 100);
+    setTimeout(() => setVis(true), 800);
   }, []);
+
+  useEffect(() => {
+    if (!vis) return;
+    const textEl = document.getElementById('hero-text');
+    const avatarEl = document.getElementById('hero-avatar');
+    if (textEl) {
+      textEl.animate(
+        [{ opacity: 0, transform: 'translateX(-100px)' }, { opacity: 1, transform: 'translateX(0)' }],
+        { duration: 1500, easing: 'cubic-bezier(0.165, 0.84, 0.44, 1)', fill: 'forwards' }
+      );
+    }
+    if (avatarEl) {
+      avatarEl.animate(
+        [{ opacity: 0, transform: 'translateY(100px)' }, { opacity: 1, transform: 'translateY(0)' }],
+        { duration: 1500, delay: 400, easing: 'cubic-bezier(0.165, 0.84, 0.44, 1)', fill: 'forwards' }
+      );
+    }
+  }, [vis]);
 
   useEffect(() => {
     const target = roles[ri];
@@ -473,30 +508,27 @@ function HeroSection() {
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 w-full">
         <div className="flex flex-col md:flex-row items-center gap-8 md:gap-16">
-          {/* Text */}
-          <div className="flex-1 max-w-xl">
+          {/* Text - slides from left */}
+          <div
+            id="hero-text"
+            className="flex-1 max-w-xl"
+            style={{ opacity: 0 }}
+          >
             <p
-              className={`section-label mb-2 fade-up text-xs sm:text-sm ${vis ? "" : "opacity-0"}`}
+              className="section-label mb-2 text-xs sm:text-sm"
             >
               Hello, world
             </p>
             <h1
-              className={`text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-2 fade-up delay-1 ${vis ? "" : "opacity-0"}`}
+              className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-2"
             >
               I'm{" "}
-              <span
-                style={{
-                  background:
-                    "linear-gradient(90deg,var(--accent),var(--accent2))",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                }}
-              >
+              <span className="name-shimmer">
                 Jayson Quisquirin
               </span>
             </h1>
             <div
-              className={`text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-300 mb-3 fade-up delay-2 ${vis ? "" : "opacity-0"}`}
+              className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-300 mb-3"
               style={{ minHeight: "1.5rem" }}
             >
               <span className="cursor">{txt}</span>
@@ -504,26 +536,26 @@ function HeroSection() {
 
             {/* Gradient separator */}
             <div
-              className={`fade-up delay-2 ${vis ? "" : "opacity-0"}`}
               style={{
                 width: 48,
                 height: 3,
-                background: "linear-gradient(90deg,var(--accent),var(--accent2))",
+                background:
+                  "linear-gradient(90deg,var(--accent),var(--accent2))",
                 borderRadius: 2,
                 margin: "12px 0 16px",
               }}
             />
 
             <p
-              className={`text-sm md:text-base text-gray-400 leading-relaxed mb-6 fade-up delay-3 ${vis ? "" : "opacity-0"}`}
+              className="text-sm md:text-base text-gray-400 leading-relaxed mb-6"
             >
-              Building scalable full-stack applications with modern technologies.
-              Passionate about clean code, system optimization, and delivering
-              impactful solutions.
+              Building scalable full-stack applications with modern
+              technologies. Passionate about clean code, system optimization,
+              and delivering impactful solutions.
             </p>
 
             <div
-              className={`flex flex-col sm:flex-row gap-3 fade-up delay-4 ${vis ? "" : "opacity-0"}`}
+              className="flex flex-col sm:flex-row gap-3"
             >
               <a
                 href="#projects"
@@ -535,7 +567,10 @@ function HeroSection() {
               <a
                 href="#contact"
                 className="mono text-xs sm:text-sm px-5 sm:px-7 py-2.5 sm:py-3 rounded-md font-bold text-center transition-all"
-                style={{ border: "1px solid #00ff8740", color: "var(--accent)" }}
+                style={{
+                  border: "1px solid #00ff8740",
+                  color: "var(--accent)",
+                }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = "#00ff8715";
                 }}
@@ -548,10 +583,15 @@ function HeroSection() {
             </div>
           </div>
 
-          {/* Avatar */}
+          {/* Avatar - slides from bottom */}
           <div
+            id="hero-avatar"
             className="relative shrink-0 hidden md:block"
-            style={{ width: "clamp(260px, 28vw, 360px)", height: "clamp(260px, 28vw, 360px)" }}
+            style={{
+              width: "clamp(260px, 28vw, 360px)",
+              height: "clamp(260px, 28vw, 360px)",
+              opacity: 0,
+            }}
           >
             <svg
               viewBox="0 0 340 340"
@@ -617,8 +657,13 @@ function ProjectCard({ p, i }) {
     const el = ref.current;
     if (!el) return;
     const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { el.classList.add("visible"); obs.unobserve(el); } },
-      { threshold: 0.1 }
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.classList.add("in-view");
+          obs.unobserve(el);
+        }
+      },
+      { threshold: 0.1 },
     );
     obs.observe(el);
     return () => obs.disconnect();
@@ -627,15 +672,27 @@ function ProjectCard({ p, i }) {
   return (
     <div
       ref={ref}
-      className="card-hover rounded-xl overflow-hidden reveal"
-      style={{ transitionDelay: `${i * 0.12}s`, background: "#0d1420" }}
+      className="card-hover rounded-xl slide-card"
+      style={{ "--card-delay": `${i * 0.2}s`, background: "#0d1420" }}
     >
-      <div className="project-img h-44 flex items-center justify-center relative overflow-hidden">
+      <div className="project-img h-44 flex items-center justify-center relative overflow-hidden"
+        onMouseMove={(e) => {
+          const rect = e.currentTarget.getBoundingClientRect();
+          const x = ((e.clientX - rect.left) / rect.width - 0.5) * 20;
+          const y = ((e.clientY - rect.top) / rect.height - 0.5) * 20;
+          const img = e.currentTarget.querySelector('.project-img-parallax');
+          if (img) img.style.transform = `translate(${x}px, ${y}px) scale(1.08)`;
+        }}
+        onMouseLeave={(e) => {
+          const img = e.currentTarget.querySelector('.project-img-parallax');
+          if (img) img.style.transform = 'translate(0, 0) scale(1)';
+        }}
+      >
         {p.preview ? (
           <img
             src={p.preview}
             alt={p.title}
-            className="w-full h-full object-cover object-top"
+            className="w-full h-full object-cover object-top project-img-parallax"
           />
         ) : (
           <span
@@ -727,7 +784,6 @@ function ProjectsSection() {
       ref={ref}
       id="projects"
       className="slide-in py-16 sm:py-20 md:py-28 max-w-6xl mx-auto px-4 sm:px-6"
-      style={{ '--slide-from': '-60px' }}
     >
       <div className="mb-10 sm:mb-14">
         <p className="section-label mb-2 sm:mb-3 text-xs sm:text-sm">
@@ -737,6 +793,7 @@ function ProjectsSection() {
           Projects
         </h2>
         <div
+          className="section-bar"
           style={{
             width: 48,
             height: 3,
@@ -757,27 +814,61 @@ function ProjectsSection() {
 
 // ── Timeline item with individual scroll reveal ──
 function TimelineItem({ t, i }) {
-  const ref = useTimelineReveal();
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          // Animate the timeline line to this item's position
+          const line = document.getElementById('timeline-line');
+          if (line) {
+            const parent = line.parentElement;
+            const parentRect = parent.getBoundingClientRect();
+            const itemRect = el.getBoundingClientRect();
+            const targetHeight = (itemRect.bottom - parentRect.top) / parentRect.height * 100;
+            line.animate(
+              [{ height: line.style.height || '0%' }, { height: `${targetHeight}%` }],
+              { duration: 600, easing: 'cubic-bezier(0.165, 0.84, 0.44, 1)', fill: 'forwards' }
+            );
+            line.style.height = `${targetHeight}%`;
+          }
+          // Animate the dot
+          const dot = el.querySelector('.timeline-dot');
+          if (dot) {
+            dot.animate(
+              [{ transform: 'scale(0)', opacity: 0 }, { transform: 'scale(1.3)', opacity: 1 }, { transform: 'scale(1)', opacity: 1 }],
+              { duration: 500, delay: i * 150, easing: 'cubic-bezier(0.165, 0.84, 0.44, 1)', fill: 'forwards' }
+            );
+          }
+          // Animate the content
+          el.animate(
+            [{ opacity: 0, transform: 'translateX(-50px)' }, { opacity: 1, transform: 'translateX(0)' }],
+            { duration: 800, delay: i * 200, easing: 'cubic-bezier(0.165, 0.84, 0.44, 1)', fill: 'forwards' }
+          );
+          obs.unobserve(el);
+        }
+      },
+      { threshold: 0.2 },
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [i]);
+
   return (
     <div
       ref={ref}
-      className="mb-8 sm:mb-10 relative timeline-item"
-      style={{ transitionDelay: `${i * 0.12}s` }}
+      className="mb-8 sm:mb-10 relative"
+      style={{ opacity: 0 }}
     >
-      <div
-        className="timeline-dot absolute"
-        style={{ left: -20, top: 4 }}
-      />
-      <div
-        className="mono text-xs mb-1"
-        style={{ color: "var(--accent)" }}
-      >
+      <div className="timeline-dot absolute" style={{ left: -20, top: 4, transform: 'scale(0)' }} />
+      <div className="mono text-xs mb-1" style={{ color: "var(--accent)" }}>
         {t.year}
       </div>
       <div className="font-bold text-xs sm:text-base">{t.role}</div>
-      <div className="text-xs text-gray-500 mono mb-1 sm:mb-2">
-        {t.co}
-      </div>
+      <div className="text-xs text-gray-500 mono mb-1 sm:mb-2">{t.co}</div>
       <ul className="text-gray-400 text-xs sm:text-sm leading-relaxed list-disc list-inside">
         {Array.isArray(t.desc) ? (
           t.desc.map((item, idx) => <li key={idx}>{item}</li>)
@@ -795,7 +886,8 @@ function StatCounter({ target, label, suffix = "+" }) {
   return (
     <div ref={ref} className="text-center px-4">
       <div className="stat-number">
-        {count}{suffix}
+        {count}
+        {suffix}
       </div>
       <div className="stat-label mt-1">{label}</div>
     </div>
@@ -806,12 +898,35 @@ function SkillsSection() {
   const skillsRef = useReveal();
   const cats = [...new Set(skills.map((s) => s.cat))];
   const [active, setActive] = useState("Frontend");
-  const [animKey, setAnimKey] = useState(0);
+  const gridRef = useRef(null);
+
+  const animateSkills = useCallback(() => {
+    if (!gridRef.current) return;
+    const items = gridRef.current.querySelectorAll('.skill-grid-item');
+    items.forEach((item, i) => {
+      item.animate(
+        [
+          { opacity: 0, transform: 'translateX(-40px)' },
+          { opacity: 1, transform: 'translateX(0)' },
+        ],
+        {
+          duration: 600,
+          delay: i * 80,
+          easing: 'cubic-bezier(0.165, 0.84, 0.44, 1)',
+          fill: 'forwards',
+        }
+      );
+    });
+  }, []);
 
   const handleCatChange = (c) => {
     setActive(c);
-    setAnimKey((k) => k + 1); // re-trigger animation on tab switch
+    setTimeout(animateSkills, 10);
   };
+
+  useEffect(() => {
+    animateSkills();
+  }, [animateSkills]);
 
   return (
     <section
@@ -819,7 +934,6 @@ function SkillsSection() {
       id="skills"
       className="slide-in py-16 sm:py-20 md:py-28 grid-bg"
       style={{
-        '--slide-from': '60px',
         borderTop: "1px solid #ffffff08",
         borderBottom: "1px solid #ffffff08",
       }}
@@ -833,6 +947,7 @@ function SkillsSection() {
             Skills
           </h2>
           <div
+            className="section-bar"
             style={{
               width: 48,
               height: 3,
@@ -876,7 +991,7 @@ function SkillsSection() {
             </div>
 
             <div
-              key={animKey}
+              ref={gridRef}
               className="skill-grid"
               style={{
                 display: "grid",
@@ -892,7 +1007,7 @@ function SkillsSection() {
                   <div
                     key={s.name}
                     className="skill-grid-item flex items-center gap-3"
-                    style={{ animationDelay: i * 0.06 + "s" }}
+                    style={{ opacity: 0 }}
                   >
                     <img
                       src={s.image}
@@ -913,8 +1028,20 @@ function SkillsSection() {
             </p>
             <div
               className="relative pl-5"
-              style={{ borderLeft: "1px solid #00ff8730" }}
+              style={{ position: 'relative' }}
             >
+              {/* Animated timeline line */}
+              <div
+                id="timeline-line"
+                style={{
+                  position: 'absolute',
+                  left: 0,
+                  top: 0,
+                  width: '1px',
+                  height: '0%',
+                  background: '#00ff8730',
+                }}
+              />
               {timeline.map((t, i) => (
                 <TimelineItem key={i} t={t} i={i} />
               ))}
@@ -927,11 +1054,61 @@ function SkillsSection() {
 }
 
 function ContactSection() {
-  const contactRef = useReveal();
+  const contactRef = useRef(null);
   const [form, setForm] = useState({ name: "", email: "", msg: "" });
   const [sent, setSent] = useState(false);
   const [recaptchaToken, setRecaptchaToken] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const el = contactRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          // Animate left side from left
+          const left = el.querySelector('#contact-left');
+          if (left) {
+            left.animate(
+              [{ opacity: 0, transform: 'translateX(-80px)' }, { opacity: 1, transform: 'translateX(0)' }],
+              { duration: 1000, easing: 'cubic-bezier(0.165, 0.84, 0.44, 1)', fill: 'forwards' }
+            );
+          }
+          // Animate right side from right
+          const right = el.querySelector('#contact-right');
+          if (right) {
+            right.animate(
+              [{ opacity: 0, transform: 'translateX(80px)' }, { opacity: 1, transform: 'translateX(0)' }],
+              { duration: 1000, delay: 200, easing: 'cubic-bezier(0.165, 0.84, 0.44, 1)', fill: 'forwards' }
+            );
+          }
+          // Stagger form fields
+          const formEl = el.querySelector('form');
+          if (formEl) {
+            const fields = formEl.children;
+            Array.from(fields).forEach((field, i) => {
+              field.animate(
+                [{ opacity: 0, transform: 'translateY(30px)' }, { opacity: 1, transform: 'translateY(0)' }],
+                { duration: 600, delay: 500 + i * 120, easing: 'cubic-bezier(0.165, 0.84, 0.44, 1)', fill: 'forwards' }
+              );
+            });
+          }
+          // Section heading
+          const heading = el.querySelector('#contact-heading');
+          if (heading) {
+            heading.animate(
+              [{ opacity: 0, transform: 'translateY(30px)' }, { opacity: 1, transform: 'translateY(0)' }],
+              { duration: 800, easing: 'cubic-bezier(0.165, 0.84, 0.44, 1)', fill: 'forwards' }
+            );
+          }
+          obs.unobserve(el);
+        }
+      },
+      { threshold: 0.1 },
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -986,10 +1163,9 @@ function ContactSection() {
     <section
       ref={contactRef}
       id="contact"
-      className="slide-in py-16 sm:py-20 md:py-28 max-w-6xl mx-auto px-4 sm:px-6"
-      style={{ '--slide-from': '-60px' }}
+      className="py-16 sm:py-20 md:py-28 max-w-6xl mx-auto px-4 sm:px-6"
     >
-      <div className="mb-10 sm:mb-14">
+      <div id="contact-heading" className="mb-10 sm:mb-14" style={{ opacity: 0 }}>
         <p className="section-label mb-2 sm:mb-3 text-xs sm:text-sm">
           Let's build together
         </p>
@@ -997,6 +1173,7 @@ function ContactSection() {
           Contact
         </h2>
         <div
+          className="section-bar"
           style={{
             width: 48,
             height: 3,
@@ -1009,7 +1186,7 @@ function ContactSection() {
 
       <div className="grid md:grid-cols-2 gap-8 sm:gap-12 md:gap-16">
         {/* Left info + socials */}
-        <div className="fade-up delay-1">
+        <div id="contact-left" style={{ opacity: 0 }}>
           <p className="text-gray-400 text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed mb-6 sm:mb-8">
             Available for full-time roles, freelance projects, or just a chat
             about interesting engineering problems. Response time: usually under
@@ -1042,7 +1219,7 @@ function ContactSection() {
               <a
                 key={s.label}
                 href={s.href}
-                className="mono text-xs px-2.5 sm:px-4 py-2 rounded flex items-center gap-2 transition-all"
+                className="social-bounce mono text-xs px-2.5 sm:px-4 py-2 rounded flex items-center gap-2 transition-all"
                 style={{ border: "1px solid #ffffff15", color: "#9ca3af" }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = "#00ff8740";
@@ -1063,9 +1240,23 @@ function ContactSection() {
         </div>
 
         {/* Right form */}
-        <div className="fade-up delay-2">
+        <div id="contact-right" style={{ opacity: 0 }}>
           {sent ? (
-            <div className="h-full flex flex-col items-center justify-center text-center gap-3 sm:gap-4 py-8 sm:py-12">
+            <div className="h-full flex flex-col items-center justify-center text-center gap-3 sm:gap-4 py-8 sm:py-12 relative">
+              {/* Confetti particles */}
+              {Array.from({ length: 12 }).map((_, i) => (
+                <span
+                  key={i}
+                  className="confetti-particle"
+                  style={{
+                    left: `${20 + Math.random() * 60}%`,
+                    top: `${10 + Math.random() * 30}%`,
+                    background: ['var(--accent)', 'var(--accent2)', '#bf97ff', '#ff9f5a'][i % 4],
+                    animationDelay: `${i * 0.08}s`,
+                    transform: `rotate(${Math.random() * 360}deg)`,
+                  }}
+                />
+              ))}
               <div
                 className="text-3xl sm:text-4xl md:text-5xl"
                 style={{ animation: "float 2s ease-in-out infinite" }}
@@ -1147,14 +1338,25 @@ function ContactSection() {
                 />
               </div>
 
+
               <button
                 type="submit"
                 disabled={!recaptchaToken || loading}
-                className={`glow-btn w-full mono text-xs sm:text-sm py-2 sm:py-3 rounded-md font-bold ${
+                className={`glow-btn magnetic-btn w-full mono text-xs sm:text-sm py-2 sm:py-3 rounded-md font-bold ${
                   !recaptchaToken || loading
                     ? "opacity-50 cursor-not-allowed"
                     : ""
                 }`}
+                onMouseMove={(e) => {
+                  if (!recaptchaToken || loading) return;
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const x = ((e.clientX - rect.left) / rect.width - 0.5) * 8;
+                  const y = ((e.clientY - rect.top) / rect.height - 0.5) * 4;
+                  e.currentTarget.style.transform = `translate(${x}px, ${y}px)`;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translate(0, 0)';
+                }}
                 style={{ background: "var(--accent)", color: "#080c14" }}
               >
                 {loading ? "Sending..." : "Send Me a message →"}
@@ -1185,22 +1387,35 @@ function Footer() {
 function App() {
   const [loaded, setLoaded] = useState(false);
   const [showTop, setShowTop] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   /* loader: fade out after page is ready */
   useEffect(() => {
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    window.scrollTo(0, 0);
     const timer = setTimeout(() => setLoaded(true), 600);
     return () => clearTimeout(timer);
   }, []);
 
-  /* back-to-top visibility */
+  /* back-to-top visibility + scroll progress */
   useEffect(() => {
-    const h = () => setShowTop(window.scrollY > 400);
+    const h = () => {
+      setShowTop(window.scrollY > 400);
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      setScrollProgress(docHeight > 0 ? window.scrollY / docHeight : 0);
+    };
     window.addEventListener("scroll", h);
     return () => window.removeEventListener("scroll", h);
   }, []);
 
   return (
     <>
+      {/* Scroll progress bar */}
+      <div
+        className="scroll-progress"
+        style={{ transform: `scaleX(${scrollProgress})` }}
+      />
+
       {/* Loading screen */}
       <div className={`loader-screen${loaded ? " hidden" : ""}`}>
         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
@@ -1219,8 +1434,22 @@ function App() {
 
       {/* Back to top */}
       <button
-        className={`back-to-top${showTop ? " visible" : ""}`}
-        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        className={`back-to-top${showTop ? " in-view" : ""}`}
+        onClick={() => {
+          document.documentElement.style.scrollBehavior = 'auto';
+          const scrollTop = window.scrollY;
+          const duration = 1200;
+          const start = performance.now();
+          const step = (now) => {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const ease = 1 - Math.pow(1 - progress, 4);
+            window.scrollTo(0, scrollTop * (1 - ease));
+            if (progress < 1) requestAnimationFrame(step);
+            else document.documentElement.style.scrollBehavior = '';
+          };
+          requestAnimationFrame(step);
+        }}
         aria-label="Back to top"
       >
         ↑
