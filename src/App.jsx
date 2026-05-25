@@ -778,14 +778,13 @@ function ProjectCard({ p, i }) {
 }
 
 function ProjectsSection() {
-  const ref = useReveal();
+  const headingRef = useReveal();
   return (
     <section
-      ref={ref}
       id="projects"
-      className="slide-in py-16 sm:py-20 md:py-28 max-w-6xl mx-auto px-4 sm:px-6"
+      className="py-16 sm:py-20 md:py-28 max-w-6xl mx-auto px-4 sm:px-6"
     >
-      <div className="mb-10 sm:mb-14">
+      <div ref={headingRef} className="slide-in mb-10 sm:mb-14">
         <p className="section-label mb-2 sm:mb-3 text-xs sm:text-sm">
           Selected Work
         </p>
